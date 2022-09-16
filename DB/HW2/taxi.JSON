@@ -1,0 +1,41 @@
+{
+  "Name": "Yandex",
+  "Drivers": [
+    {
+      "Name": "Driver1",
+      "Car": {
+        "Brand": "Priora"
+      },
+      "MobileNumber": "88005553501"
+    },
+    {
+      "Name": "Driver2",
+      "Car": {
+        "Brand": "Granta"
+      },
+      "MobileNumber": "88005553502"
+    }
+  ],
+  "Orders": [
+    {
+      "CallTime": "11:30",
+      "ID": 1,
+      "Client": {
+        "Name": "Vasya",
+        "MobileNumber": "893700100101",
+        "Age": 18
+      },
+      "Price": 300
+    },
+    {
+      "CallTime": "22:19",
+      "ID": 2,
+      "Client": {
+        "Name": "Oleg",
+        "MobileNumber": "893700200202",
+        "Age": 16
+      },
+      "Price": 200
+    }
+  ]
+}

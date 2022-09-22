@@ -1,0 +1,40 @@
+bin/psql -U postgres
+
+CREATE DATABASE hotel_booking;
+
+\connect hotel_booking;
+
+CREATE TABLE car (
+brand varchar(255),
+pasport varchar(255)
+-- KEY (passport)
+);
+
+CREATE TABLE driver (
+name varchar(255),
+mobile_number varchar(16),
+car_passport varchar(255)
+-- KEY (mobile_number) 
+);
+
+CREATE TABLE client (
+name varchar(512),
+mobile_number varchar(16),
+age integer
+--KEY (mobile_number)
+);
+
+CREATE TABLE order_taxi (
+id integer,
+price real,
+call_time date,
+client_mobile_number varchar(16)
+-- KEY (id)
+);
+
+CREATE TABLE taxi (
+name varchar(255),
+driver_mobile_number varchar(16),
+order_id integer
+-- KEY (driver_mobile_number, order_id)
+);

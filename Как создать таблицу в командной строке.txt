@@ -1,8 +1,8 @@
 bin/psql -U postgres
 
-CREATE DATABASE hotel_booking;
+CREATE DATABASE taxi;
 
-\connect hotel_booking;
+\connect taxi;
 
 CREATE TABLE car (
 brand varchar(255),

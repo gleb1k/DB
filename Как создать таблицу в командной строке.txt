@@ -1,40 +1,72 @@
 bin/psql -U postgres
 
-CREATE DATABASE taxi;
+chcp 1251
 
-\connect taxi;
+CREATE DATABASE taxi_table;
+
+\connect taxi_table;
+
+DROP table if exists car CASCADE;
+DROP table if exists driver CASCADE;
+DROP table if exists client CASCADE;
+DROP table if exists order_taxi CASCADE; 
+DROP table if exists taxi CASCADE; 
+
 
 CREATE TABLE car (
 brand varchar(255),
-pasport varchar(255)
+passport varchar(255) primary key
 -- KEY (passport)
 );
 
 CREATE TABLE driver (
 name varchar(255),
-mobile_number varchar(16),
-car_passport varchar(255)
+mobile_number varchar(16) primary key,
+car_passport varchar(255) REFERENCES car (passport)
 -- KEY (mobile_number) 
 );
 
 CREATE TABLE client (
 name varchar(512),
-mobile_number varchar(16),
-age integer
+mobile_number varchar(16) primary key,
+age integer CHECK (age > 0)
 --KEY (mobile_number)
 );
 
 CREATE TABLE order_taxi (
-id integer,
-price real,
-call_time date,
-client_mobile_number varchar(16)
+id integer primary key,
+price real CHECK (price > 0),
+call_time date UNIQUE,
+client_mobile_number varchar(16) REFERENCES client (mobile_number)
 -- KEY (id)
 );
 
 CREATE TABLE taxi (
-name varchar(255),
-driver_mobile_number varchar(16),
-order_id integer
--- KEY (driver_mobile_number, order_id)
+name varchar(255) primary key,
+driver_mobile_number varchar(16) REFERENCES driver (mobile_number),
+order_id integer REFERENCES order_taxi (id)
+-- KEY (name)
 );
+
+DROP DATABASE taxi_table;
+
+Заполнение таблицы ------------------------------
+
+INSERT into client(name,mobile_number,age) VALUES ('Gleb','89374894450',19),('Timur','89170001100',18),('Roma','89271110011',20);
+INSERT into order_taxi(id,price,call_time,client_mobile_number) VALUES (1,300,'2022-09-27 8:30:00','89374894450'),(2,2000,'2022-09-28 22:30:00','89170001100');
+
+INSERT into car(brand,passport) VALUES ('Priora','p000ot116'),('Matis','v000or102'),('Malibu','s666ry116');
+INSERT into driver(name,mobile_number,car_passport) VALUES ('Ashot','89373535555','p000ot116'),('Vadim','89372222222','v000or102'),('Rayan','89373333333','s666ry116');
+
+INSERT into taxi(name,driver_mobile_number,order_id) values ('Maxim','89373535555',1),('Yandex','89373333333',2);
+
+--Проверка на дурака
+INSERT into driver(name,mobile_number,car_passport) VALUES ('Ashot','89373d535555','p00ot116');
+
+Просмотр таблиц -------------------------------
+
+select * from taxi;
+select * from car;
+select * from driver;
+select * from client;
+select * from order_taxi;

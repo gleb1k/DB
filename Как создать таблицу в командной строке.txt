@@ -70,3 +70,29 @@ select * from car;
 select * from driver;
 select * from client;
 select * from order_taxi;
+
+small_data hw1------------------------------------
+
+1
+select count(*) from seats s join aircrafts a on s.aircraft_code = a.aircraft_code
+join flights f on f.aircraft_code = a.aircraft_code
+where s.seat_no ='12D' and f.flight_no ='PG0521';
+
+2
+select avg(amount), max(amount), min(amount) from ticket_flights tf join tickets t on tf.ticket_no = t.ticket_no
+join bookings b on t.book_ref = b.book_ref
+where book_date between '2017-08-06' and '2017-08-10';
+
+3
+select fare_conditions, f.flight_no, avg(amount), max(amount), min(amount) from ticket_flights tf
+join flights f on tf.flight_id = f.flight_id
+where f.flight_no in ('PG0521', 'PG0118', 'PG0210')
+group by tf.fare_conditions, f.flight_no;
+
+4
+select arrival_airport, count(arrival_airport) from flights
+where status='Scheduled'
+group by arrival_airport;
+select departure_airport, count(departure_airport) from flights
+where status='Scheduled'
+group by departure_airport;

@@ -1,0 +1,44 @@
+CREATE TABLE CODIFICATION
+(ID int,
+ ParentID int,
+ Name text
+)
+
+insert into codification(id,parentid,name)
+values (1,null,'Компьютер'),
+(2,1,'Устройства ПК'),
+(3,1,'Программное обеспечение'),
+(4,2,'Внутренние'),
+(5,2,'Внешние'),
+(6,3,'Служебные программы'),
+(7,3,'Прикладные программы'),
+(8,4,'Видеокарта'),
+(9,4,'Процессор'),
+(10,4,'Материнская плата'),
+(11,5,'Монитор'),
+(12,5,'Клавиатура'),
+(13,5,'Мышь')
+
+--посмотреть всех непосредственных потомков выбранного узла
+with recursive temp(id,parentid,name) as
+                   (
+                       select id,ParentID,Name from CODIFICATION where id = 13
+                        union all
+                        select c.id,c.ParentID,c.Name from CODIFICATION c, temp where c.id = temp.parentID
+                   )
+select * from temp;
+
+-- вывести всю последовательность подчинения от узла к корню
+with recursive temp(id,Parentid,name) as
+                   (
+                       select id,ParentID,Name from CODIFICATION where id = 13
+                        union all
+                        select c.id,c.ParentID,c.Name||' -> '||temp.name from CODIFICATION c, temp where c.id = temp.parentID
+                   )
+select * from temp;
+
+-- вывести родителя
+select parent.id, parent.name from codification as parent,
+(select * from codification as c 
+where c.id = 10) as child
+where parent.id = child.parentid

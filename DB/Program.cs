@@ -14,7 +14,7 @@ namespace DB
             //Json/XML - HW2    
             //HW2Runner.Run();
 
-            var connectionString = "Host=localhost;Username=postgres;Password=12345678;Database=taxi";
+            var connectionString = "Host=localhost;Username=postgres;Password=12345678;Database=taxi_table";
             using var connection = new NpgsqlConnection(connectionString);
             
             connection.Open();
@@ -24,21 +24,17 @@ namespace DB
             try
             {
                 cmd.Transaction = connection.BeginTransaction(System.Data.IsolationLevel.Serializable);
-                cmd.CommandText = "update car set pasport = '111' where brand ='lada' ";
+                cmd.CommandText = "update car set passport = '111' where brand ='lada' ";
                 cmd.ExecuteNonQuery();
 
                 cmd.Transaction = connection.BeginTransaction(System.Data.IsolationLevel.Serializable);
-                cmd.CommandText = "update car set pasport = '222' where brand ='lada'";
+                cmd.CommandText = "update car set passport = '222' where brand ='lada'";
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Console.WriteLine(ex);
-                Console.WriteLine(ex.Message);
-            }
-            
-            
+                Console.WriteLine(exception);
+            }   
         }
-
     }
 }

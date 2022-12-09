@@ -2,9 +2,9 @@ bin/psql -U postgres
 
 chcp 1251
 
-CREATE DATABASE taxi_table;
+CREATE DATABASE taxi;
 
-\connect taxi_table;
+\connect taxi;
 
 DROP table if exists car CASCADE;
 DROP table if exists driver CASCADE;
@@ -48,7 +48,7 @@ order_id integer REFERENCES order_taxi (id)
 -- KEY (name)
 );
 
-DROP DATABASE taxi_table;
+DROP DATABASE taxi;
 
 Заполнение таблицы ------------------------------
 

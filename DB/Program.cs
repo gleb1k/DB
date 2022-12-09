@@ -14,27 +14,43 @@ namespace DB
             //Json/XML - HW2    
             //HW2Runner.Run();
 
-            var connectionString = "Host=localhost;Username=postgres;Password=12345678;Database=taxi_table";
+            var connectionString = "Host=localhost;Username=postgres;Password=12345678;Database=taxi";
             using var connection = new NpgsqlConnection(connectionString);
             
             connection.Open();
+            
+            using var cmd2 = new NpgsqlCommand();
+            cmd2.Connection = connection;
+            cmd2.CommandText = "update car set passport = '999' where brand ='Priora' ";
+            cmd2.ExecuteNonQuery();
+            
             
             using var cmd = new NpgsqlCommand();
             cmd.Connection = connection;
             try
             {
                 cmd.Transaction = connection.BeginTransaction(System.Data.IsolationLevel.Serializable);
-                cmd.CommandText = "update car set passport = '111' where brand ='lada' ";
+                cmd.CommandText = "update car set passport = '666' where brand ='Priora' ";
                 cmd.ExecuteNonQuery();
 
                 cmd.Transaction = connection.BeginTransaction(System.Data.IsolationLevel.Serializable);
-                cmd.CommandText = "update car set passport = '222' where brand ='lada'";
+                cmd.CommandText = "update car set passport = '000' where brand ='Priora'";
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                Console.WriteLine(exception);
-            }   
+                Console.WriteLine(ex.Message);
+                cmd.Cancel();
+                cmd.Dispose();
+                
+                cmd.Transaction = connection.BeginTransaction(System.Data.IsolationLevel.Serializable);
+                cmd.CommandText = "update car set passport = '666' where brand ='Priora' ";
+                cmd.ExecuteNonQuery();
+
+            }
+            
+            
         }
+
     }
 }
